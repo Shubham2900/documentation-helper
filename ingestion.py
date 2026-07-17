@@ -36,6 +36,23 @@ tavily_crawl = TavilyCrawl()
 
 async def main():
     """Main async function to orchestrate the entire process"""
+    log_header("Document Ingestion phase")
+    log_info(
+        f"📚 TavilyCrawl: Starting to crawl python documentation",
+        Colors.DARKCYAN,
+    )
+
+    res = tavily_crawl.invoke({
+        "url": "https://python.langchain.com/api_reference",
+        "max_depth": 5
+    }
+    )
+
+    all_docs = res["results"]
+
+    log_success(
+        f"TavilyCrawl: Finished crawling python documentation. It crawled {len(all_docs)} docs.",
+    )
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
