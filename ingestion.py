@@ -32,7 +32,50 @@ tavily_extract = TavilyExtract()
 tavily_map = TavilyMap(max_depth=5, max_breadth=20, max_pages=20)
 tavily_crawl = TavilyCrawl()
 
+async def index_documents_async(documents: List[Document], batch_size=50) -> None:
+    """Process Documents asynchronously"""
+    log_header("VECTOR STORAGE PHASE")
+    log_info(
+        f"📚 VectorStore Indexing: Preparing to add {len(documents)} documents to vector store",
+        Colors.DARKCYAN,
+    )
 
+    # Create batches
+    batches = [
+    documents[i:i + batch_size] for i in range(0, len(documents), batch_size)
+    ]
+
+    log_info(
+        f"📦 VectorStore Indexing: Split into {len(batches)} batches of {batch_size} documents each"
+    )
+
+    # Process all batches concurrently
+    async def add_batch(batch: List[Document], batch_num: int):
+        try:
+            await vectorstore.aadd_documents(batch)
+            log_success(
+                f"VectorStore Indexing: Successfully added batch {batch_num}/{len(batches)} ({len(batch)} documents)"
+            )
+        except Exception as e:
+            log_error(f"VectorStore Indexing: Failed to add batch {batch_num} - {e}")
+            return False
+        return True
+
+    # Process batches concurrently
+    tasks = [add_batch(batch, i + 1) for i, batch in enumerate(batches)]
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+
+    # Count successful batches
+    successful = sum(1 for result in results if result is True)
+
+    if successful == len(batches):
+        log_success(
+            f"VectorStore Indexing: All batches processed successfully! ({successful}/{len(batches)})"
+        )
+    else:
+        log_warning(
+            f"VectorStore Indexing: Processed {successful}/{len(batches)} batches successfully"
+        )
 
 async def main():
     """Main async function to orchestrate the entire process"""
@@ -44,7 +87,7 @@ async def main():
 
     res = tavily_crawl.invoke({
         "url": "https://python.langchain.com/api_reference",
-        "max_depth": 5
+        "max_depth": 1
     }
     )
 
@@ -53,6 +96,29 @@ async def main():
     log_success(
         f"TavilyCrawl: Finished crawling python documentation. It crawled {len(all_docs)} docs.",
     )
+
+    # Split Documents into chunks
+    documents = [
+        Document(
+            page_content=doc["raw_content"],
+            metadata={k: v for k, v in doc.items() if k != "content"},
+        )
+        for doc in all_docs
+    ]
+    log_header("Chunking Phase")
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=4000, chunk_overlap=200)
+    splitted_docs = text_splitter.split_documents(documents)
+    log_success(
+        f"Text Splitter: Created {len(splitted_docs)} docs from {len(all_docs)} docs.",
+    )
+
+    # Process documents Asynchronously
+    await index_documents_async(splitted_docs, batch_size=500)
+    log_header("PIPELINE COMPLETE")
+    log_success("🎉 Documentation ingestion pipeline finished successfully!")
+    log_info("📊 Summary:", Colors.BOLD)
+    log_info(f"   • Documents extracted: {len(all_docs)}")
+    log_info(f"   • Chunks created: {len(splitted_docs)}")
 
 if __name__ == "__main__":
     asyncio.run(main())
