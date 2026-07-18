@@ -389,7 +389,7 @@ Grounded Response
 > ![img.png](img.png)
 
 ---
-### Answer Loading Screen
+### Answer Loading
 
 > ![img_2.png](img_2.png)
 
