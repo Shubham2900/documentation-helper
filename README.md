@@ -122,11 +122,8 @@ documentation-helper/
 │   ├── prompts.py
 │   └── ...
 │
-├── frontend/
-│   ├── app.py
-│   └── ...
-│
 ├── ingestion.py
+├── main.py
 ├── .env.example
 ├── pyproject.toml
 ├── uv.lock
