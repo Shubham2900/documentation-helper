@@ -389,19 +389,22 @@ Grounded Response
 
 ### Home Screen
 
-> Add a screenshot here
+> ![img.png](img.png)
 
 ---
+### Answer Loading Screen
 
-### Question Answering
-
-> Add a screenshot here
+> ![img_2.png](img_2.png)
 
 ---
+### Answer
 
-### Knowledge Base Creation
+> ![img_3.png](img_3.png)
 
-> Add a GIF here
+---
+### Sources
+
+> ![img_4.png](img_4.png)
 
 ---
 
