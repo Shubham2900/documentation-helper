@@ -3,7 +3,7 @@
 # 📚 Documentation Helper
 ### AI-Powered Documentation Assistant using Retrieval-Augmented Generation (RAG)
 
-Search technical documentation using natural language instead of keywords.
+The Documentation Helper is a Retrieval-Augmented Generation (RAG) application that enables users to ask natural language questions about technical documentation through a conversational interface. Instead of manually searching documentation, the application retrieves the most relevant content, provides contextual responses using a locally hosted large language model, and cites the original documentation sources used to generate each answer.
 
 Built with **Python • LangChain • Pinecone • Ollama • Tavily • Streamlit**
 
@@ -19,23 +19,34 @@ Built with **Python • LangChain • Pinecone • Ollama • Tavily • Streaml
 
 # 🌟 Overview
 
-Documentation Helper is an end-to-end **Retrieval-Augmented Generation (RAG)** application that transforms documentation websites into an AI-powered conversational knowledge base.
+Documentation Helper is an AI-powered assistant that enables developers to interact with technical documentation through natural language. Rather than navigating multiple documentation pages or relying on keyword searches, users can ask questions conversationally and receive accurate, context-aware answers grounded in the underlying documentation.
 
-Instead of manually searching through hundreds of documentation pages, users can simply ask questions in natural language and receive context-aware answers backed by the original documentation.
-
-The application automatically:
-
-- 🌐 Crawls documentation websites
-- 📄 Extracts and cleans web content
-- ✂️ Chunks documents intelligently
-- 🧠 Generates semantic embeddings locally
-- 📦 Stores vectors in Pinecone
-- 🔍 Retrieves the most relevant context
-- 🤖 Generates grounded answers using an LLM
-- 📚 Includes source references for transparency
+The project implements a complete Retrieval-Augmented Generation (RAG) pipeline that continuously transforms documentation into a searchable semantic knowledge base, combining automated content ingestion, vector search, and local large language models to deliver fast, explainable responses with source attribution.
 
 ---
 
+## 🚀 Why This Project?
+
+Traditional documentation search is keyword-driven and often requires users to manually locate, interpret, and connect information across multiple pages.
+
+Documentation Helper addresses this by:
+
+- Understanding the intent behind user questions instead of relying on exact keyword matches.
+- Retrieving the most relevant documentation using semantic similarity search.
+- Generating answers grounded in retrieved documentation to minimize hallucinations.
+- Providing links to the original sources so every response can be verified.
+
+---
+
+## ✨ Technical Highlights
+
+- Built an end-to-end Retrieval-Augmented Generation (RAG) system from data ingestion to conversational question answering.
+- Automated documentation crawling, preprocessing, semantic chunking, embedding generation, and vector indexing.
+- Implemented semantic retrieval using Pinecone and locally generated embeddings to provide low-latency, context-aware search.
+- Integrated LangChain Agents with Ollama-hosted LLMs to generate grounded, source-backed responses.
+- Migrated the project to the latest LangChain architecture and UV package management ecosystem.
+- Developed an interactive Streamlit interface for real-time conversational documentation search.
+- Designed the solution with modular components, enabling support for multiple documentation sources with minimal configuration changes.
 # ✨ Features
 
 ✅ Automated documentation crawling
